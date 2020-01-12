@@ -87,4 +87,9 @@ config LOGO_ANCHOR_CLUT224
 	depends on ARCH_S5P4418 || ARCH_S5P6818
 	default y
 
+config LOGO_COZYMA_CLUT224
+	bool "224-color Cozyma Linux logo"
+	depends on ARCH_S5P4418 || ARCH_S5P6818
+	default y
+
 endif # LOGO

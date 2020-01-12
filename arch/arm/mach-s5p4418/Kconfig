@@ -28,6 +28,16 @@ config ARCH_S5P4418
 	help
 	  Support for nexell S5P4418 dual/quard core (ARM Cortex A9) platform
 
+config MACH_ANCHOR
+	bool "Anchor Target Machine Support"
+	depends on ARCH_S5P4418
+	default n
+
+config MACH_COZYMA
+	bool "Cozyma Custom Target Machine Support"
+	depends on ARCH_S5P4418
+	default n
+
 config SECURE_REG_ACCESS
 	bool "Secure register access in non-secure mode"
 	depends on ARCH_S5P4418

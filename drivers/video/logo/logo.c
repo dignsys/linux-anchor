@@ -115,6 +115,10 @@ const struct linux_logo * __init_refok fb_find_logo(int depth)
 		/* ANCHOR Linux logo */
 		logo = &logo_anchor_clut224;
 #endif
+#ifdef CONFIG_LOGO_COZYMA_CLUT224
+		/* Cozyma Linux logo */
+		logo = &logo_cozyma_clut224;
+#endif
 	}
 	return logo;
 }
