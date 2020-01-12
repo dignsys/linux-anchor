@@ -46,11 +46,13 @@
 
 	aliases {
 		i2c1 = &i2c_1;
-		i2c3 = &i2c_gpio3;
+#if 0
+		i2c3 = &i2c_gpio3;	/* remove on Anchor5, the gpio_c 15,16 is used for GPIOs */
+#endif
 		i2c4 = &i2c_gpio4;
 		i2c5 = &i2c_gpio5;
-		i2c6 = &i2c_gpio6;
-		i2c7 = &i2c_gpio7;
+		i2c6 = &i2c_gpio6;	/* used on Codec and RTC */
+		i2c7 = &i2c_gpio7;	/* used on HDMI */
 		i2c8 = &i2c_gpio8;
 		i2c9 = &i2c_gpio9;
 	};
@@ -343,6 +345,7 @@
 			};
 		};
 
+#if 0
 		i2c_gpio3: i2c@3 {
 			compatible = "i2c-gpio";
 			gpios = <&gpio_c 16 0		/* SDA */
@@ -350,8 +353,9 @@
 					>;
 			#address-cells = <1>;
 			#size-cells = <0>;
-			status = "okay";
+			status = "disabled";
 		};
+#endif
 
 		vip_0:vip@c0063000 {
 			status = "disabled";
@@ -448,8 +452,6 @@
 		reset-gpios = <&gpio_b 12 GPIO_ACTIVE_LOW>;
 		post-power-on-delay-ms = <700>;
 		power-off-delay-us = "60";
-//		clocks = <&wifi32k>;
-//		clock-names = "lpo";
 	};
 
 	bt_control {
@@ -462,7 +464,6 @@
 		status = "okay";
 	};
 
-#if 0 /* HBAHN */
 	panel: panel-simple {
 		compatible = "dongguan,gst7d0038";
 		backlight = <&backlight>;
@@ -473,7 +474,6 @@
 			};
 		};
 	};
-#endif /* HBAHN */
 
 	i2c_gpio4: i2c@4 {
 		compatible = "i2c-gpio";
@@ -495,7 +495,6 @@
 		#address-cells = <1>;
 		#size-cells = <0>;
 
-#if 0 /* HBAHN */
 		usb3503: usb3503@08 {
 			compatible = "smsc,usb3503";
 			reg = <0x08>;
@@ -503,8 +502,8 @@
 			connect-gpios = <&gpio_a 18 0>;
 			reset-gpios = <&gpio_a 22 0>;
 			initial-mode = <1>;
+			status = "disabled";
 		};
-#endif /* HBAHN */
 	};
 
 	i2c_gpio6:i2c@6 {
@@ -531,11 +530,11 @@
 		};
 	};
 
-	i2c_gpio7:i2c@7 {
+	i2c_gpio7:i2c@7 {	/* used on HDMI */
 		compatible = "i2c-gpio";
 
 		gpios = <&gpio_c 31 0        /* SDA */
-			&gpio_c 29 0        /* SCL */
+			 &gpio_c 29 0        /* SCL */
 			>;
 
 		#address-cells = <1>;
@@ -551,31 +550,30 @@
 		i2c-gpio,delay-us = <1>;	/* ~100kHz */
 		#address-cells = <1>;
 		#size-cells = <0>;
-		status = "okay";
+		status = "disabled";
 
-#if 0 /* HBAHN */
 		cw2015@62 {
 			compatible = "cw201x";
 			reg = <0x62>;
 
 			bat_config_info = <0x15 0x4C 0x78 0x48 0x25
 				0x16 0x45 0x60 0x67 0x5D
-                0x56 0x4C 0x58 0x58 0x53
+				0x56 0x4C 0x58 0x58 0x53
 				0x57 0x59 0x5C 0x5E 0x65
-                0x57 0x6C 0x78 0x75 0x85
+				0x57 0x6C 0x78 0x75 0x85
 				0x91 0x07 0xAE 0x74 0xA4
-                0x96 0xA3 0xC1 0xC2 0xD2
+				0x96 0xA3 0xC1 0xC2 0xD2
 				0xBF 0x40 0x1F 0x98 0x19
-                0x05 0x38 0x48 0x79 0x8D
+				0x05 0x38 0x48 0x79 0x8D
 				0x92 0x92 0x23 0x73 0x80
-                0x94 0xB0 0x37 0xC1 0x91
+				0x94 0xB0 0x37 0xC1 0x91
 				0xCB 0x2F 0x7D 0x72 0xA5
 				0xB5 0xC1 0x15 0x09>;
 
 			is_dc_charge = <1>;
 			is_usb_charge = <0>;
+			status = "disabled";
 		};
-#endif /* HBAHN */
 
 	};
 
@@ -587,15 +585,14 @@
 		i2c-gpio,delay-us = <1>;	/* ~100kHz */
 		#address-cells = <1>;
 		#size-cells = <0>;
-		status = "okay";
+		status = "disabled";
 
-#if 0 /* HBAHN */
 		bq24296_charger@6b {
 			compatible = "ti,bq24296";
 			reg = <0x6b>;
 			ti,chg_current = <1000 1500 2000>;
+			status = "disabled";
 		};
-#endif /* HBAHN */
 	};
 
 	sound {
@@ -606,10 +603,9 @@
 		    "Headphone", "Out Jack",
 		    "Microphone", "In Jack";
 		simple-audio-card,routing =
-		    "Out Jack", "HPOL",
-		    "Out Jack", "HPOR",
-		    "IN2P", "In Jack",
-		    "IN2P", "In Jack";
+		    "Out Jack", "SPKOUT",
+		    "Out Jack", "SPKOUTN",
+		    "MIC1", "In Jack";
 		status = "okay";
 
 		simple-audio-card,dai-link@0 {
@@ -934,7 +930,6 @@
 	status = "okay";
 };
 
-#if 0 /* HBAHN */
 &dp_drm_lvds {
 	status = "disabled";
 
@@ -948,7 +943,6 @@
 		out_format = <3>;
 	};
 };
-#endif /* HBAHN */
 
 &dw_mmc_1 {
 	pinctrl-names = "default";
