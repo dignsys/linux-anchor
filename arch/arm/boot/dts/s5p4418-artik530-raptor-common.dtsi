@@ -46,15 +46,12 @@
 
 	aliases {
 		i2c1 = &i2c_1;
-#if 0
-		i2c3 = &i2c_gpio3;	/* remove on Anchor5, the gpio_c 15,16 is used for GPIOs */
-#endif
+		i2c2 = &i2c_2;
+		i2c3 = &i2c_gpio3;
 		i2c4 = &i2c_gpio4;
 		i2c5 = &i2c_gpio5;
 		i2c6 = &i2c_gpio6;	/* used on Codec and RTC */
 		i2c7 = &i2c_gpio7;	/* used on HDMI */
-		i2c8 = &i2c_gpio8;
-		i2c9 = &i2c_gpio9;
 	};
 
 	nx-v4l2 {
@@ -173,50 +170,22 @@
 				PIN_IN(gpiod-8, FUNC0, NONE, STR0);
 			};
 
-			key_power:key_power {
+			key_power:key-power {
 				nexell,pins = "alive-0";
 				nexell,pin-function = <0>;
 				nexell,pin-pull = <1>;
 				nexell,pin-strength = <0>;
 			};
 
-			key_homepage:key_homepage {
-				nexell,pins = "gpiod-28";
-				nexell,pin-function = <0>;
-				nexell,pin-pull = <1>;
-				nexell,pin-strength = <0>;
-			};
-
-			key_enter:key_enter {
-				nexell,pins = "gpiod-29";
-				nexell,pin-function = <0>;
-				nexell,pin-pull = <1>;
-				nexell,pin-strength = <0>;
-			};
-
-			key_volup:key_volup {
-				nexell,pins = "gpiod-30";
-				nexell,pin-function = <0>;
-				nexell,pin-pull = <1>;
-				nexell,pin-strength = <0>;
-			};
-
-			key_voldown:key_voldown {
-				nexell,pins = "gpiod-31";
-				nexell,pin-function = <0>;
-				nexell,pin-pull = <1>;
-				nexell,pin-strength = <0>;
-			};
-
-			key_func1:key_func1 {
-				nexell,pins = "gpioe-0";
-				nexell,pin-function = <0>;
-				nexell,pin-pull = <1>;
-				nexell,pin-strength = <0>;
-            		};
-
-			key_func2:key_func2 {
+			key_home:key-home {
 				nexell,pins = "gpioe-1";
+				nexell,pin-function = <0>;
+				nexell,pin-pull = <1>;
+				nexell,pin-strength = <0>;
+			};
+
+			key_back:key-back {
+				nexell,pins = "gpioe-0";
 				nexell,pin-function = <0>;
 				nexell,pin-pull = <1>;
 				nexell,pin-strength = <0>;
@@ -345,18 +314,6 @@
 			};
 		};
 
-#if 0
-		i2c_gpio3: i2c@3 {
-			compatible = "i2c-gpio";
-			gpios = <&gpio_c 16 0		/* SDA */
-				 &gpio_c 15 0		/* SCL */
-					>;
-			#address-cells = <1>;
-			#size-cells = <0>;
-			status = "disabled";
-		};
-#endif
-
 		vip_0:vip@c0063000 {
 			status = "disabled";
 		};
@@ -475,38 +432,28 @@
 		};
 	};
 
+	i2c_gpio3: i2c@3 {
+		compatible = "i2c-gpio";
+		gpios = <&gpio_a 19 0	/* SDA */
+			 &gpio_a 20 0	/* SCL */
+				>;
+		#address-cells = <1>;
+		#size-cells = <0>;
+		status = "disabled";
+	};
+
 	i2c_gpio4: i2c@4 {
 		compatible = "i2c-gpio";
-		gpios = <&gpio_a 5 0 /* sda */
-			&gpio_a 4 0 /* scl */
+		gpios = <&gpio_a 5 0 	/* SDA */
+			&gpio_a 4 0 	/* SCL */
 			>;
 		i2c-gpio,delay-us = <100>;
 		#address-cells = <1>;
 		#size-cells = <0>;
-		status = "okay";
+		status = "disabled";
 	};
 
-	i2c_gpio5: i2c@5 {
-		compatible = "i2c-gpio";
-		gpios = <&gpio_d 14 0	/* sda */
-			&gpio_d 18 0	/* scl */
-			>;
-		i2c-gpio,delay-us = <10>;
-		#address-cells = <1>;
-		#size-cells = <0>;
-
-		usb3503: usb3503@08 {
-			compatible = "smsc,usb3503";
-			reg = <0x08>;
-			intn-gpios = <&gpio_b 23 0>;
-			connect-gpios = <&gpio_a 18 0>;
-			reset-gpios = <&gpio_a 22 0>;
-			initial-mode = <1>;
-			status = "disabled";
-		};
-	};
-
-	i2c_gpio6:i2c@6 {
+	i2c_gpio5:i2c@5 {
 		compatible = "i2c-gpio";
 		gpios = <&gpio_e 6 0	/* SDA */
 			 &gpio_e 5 0	/* SCL */
@@ -514,6 +461,7 @@
 		i2c-gpio,delay-us = <1>;
 		#address-cells = <1>;
 		#size-cells = <0>;
+		status = "ok";
 
 		/* sound codec */
 		alc5623: alc5623@1a {
@@ -521,6 +469,17 @@
 			compatible = "realtek,alc5623";
 			reg = <0x1a>;
 		};
+	};
+
+	i2c_gpio6: i2c@6 {	/* used on RTC */
+		compatible = "i2c-gpio";
+		gpios = <&gpio_d 30 0	/* SDA */
+			 &gpio_d 31 0	/* SCL */
+			>;
+		i2c-gpio,delay-us = <1>;	/* ~100kHz */
+		#address-cells = <1>;
+		#size-cells = <0>;
+		status = "ok";
 
 		/* RTC provided by Seiko S-35390A I2C RTC chip */
 		s35390a: s35390a@30 {
@@ -530,70 +489,17 @@
 		};
 	};
 
+
 	i2c_gpio7:i2c@7 {	/* used on HDMI */
 		compatible = "i2c-gpio";
-
-		gpios = <&gpio_c 31 0        /* SDA */
-			 &gpio_c 29 0        /* SCL */
+		gpios = <&gpio_d 28 0        /* SDA */
+			 &gpio_d 29 0        /* SCL */
 			>;
 
 		#address-cells = <1>;
 		#size-cells = <0>;
 		status = "okay";
 	}; /* i2c_gpio7 */
-
-	i2c_gpio8: i2c@8 {
-		compatible = "i2c-gpio";
-		gpios = <&gpio_a 13 0	/* sda */
-			 &gpio_a 9 0		/* scl */
-			>;
-		i2c-gpio,delay-us = <1>;	/* ~100kHz */
-		#address-cells = <1>;
-		#size-cells = <0>;
-		status = "disabled";
-
-		cw2015@62 {
-			compatible = "cw201x";
-			reg = <0x62>;
-
-			bat_config_info = <0x15 0x4C 0x78 0x48 0x25
-				0x16 0x45 0x60 0x67 0x5D
-				0x56 0x4C 0x58 0x58 0x53
-				0x57 0x59 0x5C 0x5E 0x65
-				0x57 0x6C 0x78 0x75 0x85
-				0x91 0x07 0xAE 0x74 0xA4
-				0x96 0xA3 0xC1 0xC2 0xD2
-				0xBF 0x40 0x1F 0x98 0x19
-				0x05 0x38 0x48 0x79 0x8D
-				0x92 0x92 0x23 0x73 0x80
-				0x94 0xB0 0x37 0xC1 0x91
-				0xCB 0x2F 0x7D 0x72 0xA5
-				0xB5 0xC1 0x15 0x09>;
-
-			is_dc_charge = <1>;
-			is_usb_charge = <0>;
-			status = "disabled";
-		};
-
-	};
-
-	i2c_gpio9: i2c@9 {
-		compatible = "i2c-gpio";
-		gpios = <&gpio_a 19 0	/* sda */
-			&gpio_a 20 0	/* scl */
-			>;
-		i2c-gpio,delay-us = <1>;	/* ~100kHz */
-		#address-cells = <1>;
-		#size-cells = <0>;
-		status = "disabled";
-
-		bq24296_charger@6b {
-			compatible = "ti,bq24296";
-			reg = <0x6b>;
-			ti,chg_current = <1000 1500 2000>;
-			status = "disabled";
-		};
-	};
 
 	sound {
 		compatible = "simple-audio-card";
@@ -603,8 +509,10 @@
 		    "Headphone", "Out Jack",
 		    "Microphone", "In Jack";
 		simple-audio-card,routing =
-		    "Out Jack", "SPKOUT",
-		    "Out Jack", "SPKOUTN",
+		    "Out Jack", "HPL",
+		    "Out Jack", "HPR",
+		    "Out Jack", "LINEINL",
+		    "Out Jack", "LINEINR",
 		    "MIC1", "In Jack";
 		status = "okay";
 
@@ -640,8 +548,7 @@
 		#address-cells = <1>;
 		#size-cells = <0>;
 		pinctrl-names = "default";
-		pinctrl-0 = <&key_power &key_func1 &key_func2>,
-			<&key_homepage &key_enter &key_volup &key_voldown>;
+		pinctrl-0 = <&key_power &key_back &key_home>;
 
 		power {
 			label = "Power";
@@ -656,36 +563,10 @@
 			linux,code = <KEY_BACK>;
 		};
 
-		menu {
+		home {
 			label = "Menu";
 			gpios = <&gpio_e 1 GPIO_ACTIVE_LOW>;
-			linux,code = <KEY_MENU>;
-		};
-
-		home {
-			label = "Home";
-			gpios = <&gpio_d 28 GPIO_ACTIVE_LOW>;
 			linux,code = <KEY_HOME>;
-			gpio-key,wakeup;
-		};
-
-		key_enter {
-			label = "Enter";
-			gpios = <&gpio_d 29 GPIO_ACTIVE_LOW>;
-			linux,code = <KEY_ENTER>;
-			gpio-key,wakeup;
-		};
-
-		key_volup {
-			label = "Volume Up";
-			gpios = <&gpio_d 30 GPIO_ACTIVE_LOW>;
-			linux,code = <KEY_VOLUMEUP>;
-		};
-
-		key_voldown {
-			label = "Volume Down";
-			gpios = <&gpio_d 31 GPIO_ACTIVE_LOW>;
-			linux,code = <KEY_VOLUMEDOWN>;
 		};
 	};
 
@@ -858,10 +739,11 @@
 		interrupt-parent = <&gpio_d>;
 		interrupts = <8 IRQ_TYPE_EDGE_FALLING>;
 		irq-gpios = <&gpio_d 8 0>;
-		reset-gpios = <&gpio_b 0 0>;
+		reset-gpios = <&gpio_c 15 0>;
 		touchscreen-inverted-x;
 //		touchscreen-inverted-y;
 //		touchscreen-swapped-x-y;
+		status = "disabled";
 	};
 };
 
@@ -887,7 +769,7 @@
 	hs_bitrate = <420>;
 	lp_bitrate = <100>;
 	skip_panel_check = <1>;
-	status = "ok";
+	status = "disabled";
 
 	display-timing {
 		clock-frequency = <81244800>;

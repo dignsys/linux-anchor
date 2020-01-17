@@ -10,6 +10,15 @@ artik10(artik1020), artik710 and artik530. The base kernel version of artik5
 and artik10 is linux-3.10.93 and based on Samsung Exynos kernel.
 The artik710 and artik530 kernel is based on is based on linux-4.4.43.
 
+### 1.1 Support Anchor5 & Anchor7
+The Anchor5 & Anchor7 is new target based on Artik530 & Artik710.
+This target use Artik530 and Artik710 configuration for each.
+You can find Anchor information on 
+```
+	www.iotanchor.com
+```
+
+
 ---
 ## 2. Build guide
 ### 2.1 Install cross compiler

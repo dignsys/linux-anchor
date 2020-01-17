@@ -1,5 +1,5 @@
-#%define config_name artik530_raptor_defconfig
-%define config_name s5p4418_cozyma_defconfig
+%define config_name artik530_raptor_defconfig
+## define config_name s5p4418_cozyma_defconfig
 %define buildarch arm
 %define target_board artik530-raptor
 %define variant %{target_board}
