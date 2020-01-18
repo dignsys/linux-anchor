@@ -397,13 +397,6 @@
 		status = "disabled";
 	};
 
-	wifi32k: wifi32k {
-		compatible = "pwm-clock";
-		#clock-cells = <0>;
-		clock-frequency = <32768>;
-		pwms = <&pwm 0 30518 0>;
-	};
-
 	wifi_pwrseq: wifi-pwrseq {
 		compatible = "mmc-pwrseq-simple";
 		reset-gpios = <&gpio_b 12 GPIO_ACTIVE_LOW>;
@@ -699,8 +692,8 @@
 
 &pwm {
 	pinctrl-names = "default";
-	pinctrl-0 = <&pwm0_pin &pwm2_pin>;
-	samsung,pwm-outputs = <0>, <2>;
+	pinctrl-0 = <&pwm1_pin &pwm2_pin>;
+	samsung,pwm-outputs = <1>, <2>;
 	status = "okay";
 };
 
