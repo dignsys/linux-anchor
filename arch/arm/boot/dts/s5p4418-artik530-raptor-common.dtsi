@@ -557,7 +557,7 @@
 		};
 
 		home {
-			label = "Menu";
+			label = "Home";
 			gpios = <&gpio_e 1 GPIO_ACTIVE_LOW>;
 			linux,code = <KEY_HOME>;
 		};
