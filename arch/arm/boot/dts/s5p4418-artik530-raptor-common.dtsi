@@ -141,7 +141,6 @@
 				PIN_OUT(gpioa-25, LOW, FUNC0, NONE, STR0);
 				PIN_OUT(gpioa-26, LOW, FUNC0, NONE, STR0);
 				PIN_OUT(gpioa-27, LOW, FUNC0, NONE, STR0);
-				PIN_OUT(gpiob-9, LOW, FUNC0, NONE, STR0);
 				PIN_OUT(gpiob-14, LOW, FUNC2, NONE, STR0);
 				PIN_OUT(gpioe-2, LOW, FUNC0, NONE, STR0);
 
@@ -158,10 +157,7 @@
 				PIN_OUT(gpioe-23, LOW, FUNC0, NONE, STR0);
 
 				/* Led & Switch */
-				PIN_OUT(gpioa-28, LOW, FUNC0, NONE, STR0);
-				PIN_IN(gpioa-30, FUNC0, NONE, STR0);
-				PIN_IN(gpiob-0, FUNC0, NONE, STR0);
-				PIN_OUT(gpiob-6, LOW, FUNC0, NONE, STR0);
+				/* PIN_OUT(gpioc-13, LOW, FUNC0, NONE, STR0); */
 
 				/* Etc */
 				PIN_IN(gpioa-10, FUNC0, NONE, STR0);
@@ -178,14 +174,35 @@
 			};
 
 			key_home:key-home {
-				nexell,pins = "gpioe-1";
+				nexell,pins = "gpiob-6";
 				nexell,pin-function = <0>;
 				nexell,pin-pull = <1>;
 				nexell,pin-strength = <0>;
 			};
 
 			key_back:key-back {
-				nexell,pins = "gpioe-0";
+				nexell,pins = "gpiob-9";
+				nexell,pin-function = <0>;
+				nexell,pin-pull = <1>;
+				nexell,pin-strength = <0>;
+			};
+
+			key_menu:key-back {
+				nexell,pins = "gpioa-28";
+				nexell,pin-function = <0>;
+				nexell,pin-pull = <1>;
+				nexell,pin-strength = <0>;
+			};
+
+			key_volup:key-back {
+				nexell,pins = "gpioa-30";
+				nexell,pin-function = <0>;
+				nexell,pin-pull = <1>;
+				nexell,pin-strength = <0>;
+			};
+
+			key_voldown:key-back {
+				nexell,pins = "gpiob-0";
 				nexell,pin-function = <0>;
 				nexell,pin-pull = <1>;
 				nexell,pin-strength = <0>;
@@ -541,7 +558,8 @@
 		#address-cells = <1>;
 		#size-cells = <0>;
 		pinctrl-names = "default";
-		pinctrl-0 = <&key_power &key_back &key_home>;
+		pinctrl-0 = <&key_power &key_home &key_back &key_menu>,
+			    <&key_volup &key_voldown>;
 
 		power {
 			label = "Power";
@@ -550,16 +568,35 @@
 			gpio-key,wakeup;
 		};
 
+		home {
+			label = "Home";
+			gpios = <&gpio_b 6 GPIO_ACTIVE_LOW>;
+			linux,code = <KEY_HOME>;
+			gpio-key,wakeup;
+		};
+
 		back {
 			label = "Back";
-			gpios = <&gpio_e 0 GPIO_ACTIVE_LOW>;
+			gpios = <&gpio_b 9 GPIO_ACTIVE_LOW>;
 			linux,code = <KEY_BACK>;
 		};
 
-		home {
-			label = "Home";
-			gpios = <&gpio_e 1 GPIO_ACTIVE_LOW>;
-			linux,code = <KEY_HOME>;
+		menu {
+			label = "Menu";
+			gpios = <&gpio_a 28 GPIO_ACTIVE_LOW>;
+			linux,code = <KEY_MENU>;
+		};
+
+		key_volup {
+			label = "Volume Up";
+			gpios = <&gpio_a 30 GPIO_ACTIVE_LOW>;
+			linux,code = <KEY_VOLUMEUP>;
+		};
+
+		key_voldown {
+			label = "Volume Down";
+			gpios = <&gpio_b 0 GPIO_ACTIVE_LOW>;
+			linux,code = <KEY_VOLUMEDOWN>;
 		};
 	};
 
