@@ -773,7 +773,7 @@
 		touchscreen-inverted-x;
 //		touchscreen-inverted-y;
 //		touchscreen-swapped-x-y;
-		status = "ok";
+		status = "disabled";
 	};
 };
 
@@ -799,7 +799,7 @@
 	hs_bitrate = <420>;
 	lp_bitrate = <100>;
 	skip_panel_check = <1>;
-	status = "okay";
+	status = "disabled";
 
 	display-timing {
 		clock-frequency = <81244800>;
@@ -839,7 +839,12 @@
 
 &dp_drm_hdmi {
 	ddc-i2c-bus = <&i2c_gpio7>;
-	status = "disabled";
+	status = "okay";
+
+	mode {
+		width = <1280>;
+		height = <720>;
+	};
 };
 
 &dp_drm_lvds {
