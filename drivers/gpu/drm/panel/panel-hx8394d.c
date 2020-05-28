@@ -53,7 +53,7 @@
 
 #define MAX_BACKLIGHT_BRIGHTNESS 175
 #define MIN_BACKLIGHT_BRIGHTNESS 80
-#define DFL_BACKLIGHT_BRIGHTNESS 100
+#define DFL_BACKLIGHT_BRIGHTNESS 175
 
 #define TEST_CHECK_PANEL_MODULE	0
 
@@ -77,8 +77,6 @@ struct hx8394d {
 	int error;
 };
 
-int hx8394d_dsi_get_display_brightness(struct backlight_device *bl_dev);
-int hx8394d_dsi_set_display_brightness(struct backlight_device *bl_dev);
 static void _dcs_write(struct hx8394d *ctx, const void *data, size_t len);
 static int __maybe_unused _dcs_read(struct hx8394d *ctx, u8 cmd, void *data, size_t len);
 
@@ -387,13 +385,6 @@ static int hx8394d_enable(struct drm_panel *panel)
 
 	hx8394d_dcs_write_seq(ctx, DISPON);
 
-#if 0
-	if (ctx->enable_gpio > 0) {
-		gpio_direction_output(ctx->enable_gpio, 1);
-		gpio_set_value(ctx->enable_gpio, 1);
-	}
-#endif
-
 	return 0;
 }
 
@@ -407,11 +398,6 @@ static int hx8394d_disable(struct drm_panel *panel)
 	}
 
 	hx8394d_dcs_write_seq(ctx, DISPOFF);
-
-#if 0
-	if (ctx->enable_gpio > 0)
-		gpio_set_value(ctx->enable_gpio, 0);
-#endif
 
 	return 0;
 }
@@ -522,46 +508,11 @@ static int hx8394d_parse_dt(struct hx8394d *ctx)
 	return 0;
 }
 
-int hx8394d_dsi_get_display_brightness(struct backlight_device *bl_dev)
-{
-	return bl_dev->props.brightness;
-}
-
-int hx8394d_dsi_set_display_brightness(struct backlight_device *bl_dev)
-{
-	struct hx8394d *ctx = (struct hx8394d *)bl_get_data(bl_dev);
-	int brightness = bl_dev->props.brightness;
-	u8 data[2];
-
-	if (!ctx->is_power_on) {
-		return -ENODEV;
-	}
-
-	if (brightness < MIN_BACKLIGHT_BRIGHTNESS) {
-		brightness = MIN_BACKLIGHT_BRIGHTNESS;
-	} else if (brightness > MAX_BACKLIGHT_BRIGHTNESS) {
-		brightness = MAX_BACKLIGHT_BRIGHTNESS;
-	}
-
-	data[0] = (u8)WRDISBV;
-	data[1] = (u8)((175 - brightness) + 80);
-
-	_dcs_write(ctx, data, 2);
-
-	ctx->brightness = brightness;
-
-	return 0;
-}
-
-static const struct backlight_ops hx8394d_bl_ops = {
-	.get_brightness = hx8394d_dsi_get_display_brightness,
-	.update_status = hx8394d_dsi_set_display_brightness,
-};
-
 static int hx8394d_probe(struct mipi_dsi_device *dsi)
 {
 	struct device *dev = &dsi->dev;
 	struct hx8394d *ctx;
+	struct device_node *backlight;
 	int ret;
 
 	ctx = devm_kzalloc(dev, sizeof(struct hx8394d), GFP_KERNEL);
@@ -606,29 +557,17 @@ static int hx8394d_probe(struct mipi_dsi_device *dsi)
 		return ret;
 	}
 
-#if 0
-	ctx->enable_gpio = of_get_named_gpio(dev->of_node, "enable-gpio", 0);
-	if (ctx->enable_gpio < 0)
-		dev_warn(dev, "cannot get enable-gpio %d\n", ctx->enable_gpio);
-	else {
-		ret = devm_gpio_request(dev, ctx->enable_gpio, "enable-gpio");
-		if (ret) {
-			dev_err(dev, "failed to request enable-gpio\n");
-			return ret;
+	backlight = of_parse_phandle(dev->of_node, "backlight", 0);
+	if (backlight) {
+		ctx->bl_dev = of_find_backlight_by_node(backlight);
+		of_node_put(backlight);
+
+		if (IS_ERR(ctx->bl_dev)) {
+			dev_err(dev, "failed to get backlight device\n");
+			return PTR_ERR(ctx->bl_dev);
 		}
-	}
-#endif
 
-	ctx->bl_dev = backlight_device_register("hx8394d_bl", dev, ctx,
-					&hx8394d_bl_ops, NULL);
-	if (IS_ERR(ctx->bl_dev)) {
-		dev_err(dev, "failed to register backlight device\n");
-		return PTR_ERR(ctx->bl_dev);
-	}
-
-	ctx->bl_dev->props.max_brightness = MAX_BACKLIGHT_BRIGHTNESS;
-	ctx->bl_dev->props.brightness = DFL_BACKLIGHT_BRIGHTNESS;
-	ctx->bl_dev->props.power = FB_BLANK_POWERDOWN;
+        }
 
 	ctx->width_mm = WIDTH_MM;
 	ctx->height_mm = HEIGHT_MM;
@@ -639,13 +578,13 @@ static int hx8394d_probe(struct mipi_dsi_device *dsi)
 
 	ret = drm_panel_add(&ctx->panel);
 	if (ret < 0) {
-		backlight_device_unregister(ctx->bl_dev);
+		dev_err(dev, "failed to add panel\n");
 		return ret;
 	}
 
 	ret = mipi_dsi_attach(dsi);
 	if (ret < 0) {
-		backlight_device_unregister(ctx->bl_dev);
+		dev_err(dev, "failed to attach mipi dsi\n");
 		drm_panel_remove(&ctx->panel);
 	}
 
@@ -658,7 +597,6 @@ static int hx8394d_remove(struct mipi_dsi_device *dsi)
 
 	mipi_dsi_detach(dsi);
 	drm_panel_remove(&ctx->panel);
-	backlight_device_unregister(ctx->bl_dev);
 	hx8394d_power_off(ctx);
 
 	return 0;

@@ -266,7 +266,7 @@
 			pinctrl-names = "default";
 			pinctrl-0 = <&gmac_pins>;
 
-			status = "okay";
+			status = "disabled";
 			#address-cells = <0x1>;
 			#size-cells = <0x0>;
 
@@ -380,7 +380,7 @@
 
 	backlight: pwm-backlight {
 		compatible = "pwm-backlight";
-		pwms = <&pwm 2 50000 0>;
+		pwms = <&pwm 0 1000 0>;
 		pwm-names = "pwm-backlight";
 		brightness-levels = <
 			0 1 2 3 4 5 6 7 8 9
@@ -410,8 +410,8 @@
 			240 241 242 243 244 245 246 247 248 249
 			250 251 252 253 254 255
 			>;
-		default-brightness-level = <100>;
-		status = "disabled";
+		default-brightness-level = <150>;
+		status = "okay";
 	};
 
 	wifi_pwrseq: wifi-pwrseq {
@@ -425,8 +425,8 @@
 		compatible = "broadcom,bcm43xxbt";
 		pinctrl-names = "bt cfg";
 		pinctrl-0 = <&bt_cfg_reg_on &bt_cfg_hostwake &bt_cfg_btwake>;
-		bt_en-gpio = <&gpio_b 18 1>; /* GPIOB18 = BT_EN */
-		bt_wake-gpio = <&gpio_b 16 0>;	/* GPIOB16 = BT_WAKE */
+		bt_en-gpio = <&gpio_b 18 1>; 		/* GPIOB18 = BT_EN */
+		bt_wake-gpio = <&gpio_b 16 0>;		/* GPIOB16 = BT_WAKE */
 		bt_hostwake-gpio = <&gpio_b 14 0>;	/* GPIOB14 = BT_HOST_WAKE */
 		status = "okay";
 	};
@@ -729,8 +729,8 @@
 
 &pwm {
 	pinctrl-names = "default";
-	pinctrl-0 = <&pwm1_pin &pwm2_pin>;
-	samsung,pwm-outputs = <1>, <2>;
+	pinctrl-0 = <&pwm0_pin &pwm1_pin &pwm2_pin>;
+	samsung,pwm-outputs = <0>, <1>, <2>;
 	status = "okay";
 };
 
@@ -815,6 +815,7 @@
 
 	panel@0 {
 		compatible = "hx8394d";
+		backlight = <&backlight>;
 		reg = <0>;
 		vdd3-supply = <&VCC_LDO0>;
 		vci-supply = <&VCC_LDO8>;
