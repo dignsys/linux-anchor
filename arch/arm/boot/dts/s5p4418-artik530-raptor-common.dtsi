@@ -566,6 +566,7 @@
 			gpios = <&alive_0 0 0>;
 			linux,code = <KEY_POWER>;
 			gpio-key,wakeup;
+			debounce-interval = <100>;	/* touch key has 150ms interval time */
 		};
 
 		home {
@@ -573,30 +574,35 @@
 			gpios = <&gpio_b 6 GPIO_ACTIVE_LOW>;
 			linux,code = <KEY_HOME>;
 			gpio-key,wakeup;
+			debounce-interval = <100>;	/* touch key has 150ms interval time */
 		};
 
 		back {
 			label = "Back";
 			gpios = <&gpio_b 9 GPIO_ACTIVE_LOW>;
 			linux,code = <KEY_BACK>;
+			debounce-interval = <100>;	/* touch key has 150ms interval time */
 		};
 
 		menu {
 			label = "Menu";
 			gpios = <&gpio_a 28 GPIO_ACTIVE_LOW>;
 			linux,code = <KEY_MENU>;
+			debounce-interval = <100>;	/* touch key has 150ms interval time */
 		};
 
 		key_volup {
 			label = "Volume Up";
 			gpios = <&gpio_a 30 GPIO_ACTIVE_LOW>;
 			linux,code = <KEY_VOLUMEUP>;
+			debounce-interval = <100>;	/* touch key has 150ms interval time */
 		};
 
 		key_voldown {
 			label = "Volume Down";
 			gpios = <&gpio_b 0 GPIO_ACTIVE_LOW>;
 			linux,code = <KEY_VOLUMEDOWN>;
+			debounce-interval = <100>;	/* touch key has 150ms interval time */
 		};
 	};
 
