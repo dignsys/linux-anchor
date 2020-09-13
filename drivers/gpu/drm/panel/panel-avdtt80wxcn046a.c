@@ -414,11 +414,19 @@ static int avdtt80wx_power_off(struct avdtt80wx *ctx)
 	if (!ctx->is_power_on)
 		return 0;
 
-	/* gpio_set_value(ctx->reset_gpio, 0); */
-	/* usleep_range(5000, 6000); */
-        /*  */
-	/* regulator_bulk_disable(ARRAY_SIZE(ctx->supplies), ctx->supplies); */
-	/* ctx->is_power_on = false; */
+/*
+	gpio_set_value(ctx->reset_gpio, 0);
+	usleep_range(5000, 6000);
+	regulator_bulk_disable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
+*/
+	if (ctx->bl_dev) {
+		ctx->bl_dev->props.power = FB_BLANK_POWERDOWN;
+		backlight_update_status(ctx->bl_dev);
+	}
+
+	avdtt80wx_dcs_write_seq(ctx, DISPOFF);
+
+	ctx->is_power_on = false;
 
 	return 0;
 }
