@@ -411,7 +411,7 @@
 			250 251 252 253 254 255
 			>;
 		default-brightness-level = <100>;
-		status = "disabled";
+		status = "okay";
 	};
 
 	wifi_pwrseq: wifi-pwrseq {
@@ -770,10 +770,10 @@
 		interrupts = <8 IRQ_TYPE_EDGE_FALLING>;
 		irq-gpios = <&gpio_d 8 0>;
 		reset-gpios = <&gpio_c 15 0>;
-		touchscreen-inverted-x;
+//		touchscreen-inverted-x;
 //		touchscreen-inverted-y;
 //		touchscreen-swapped-x-y;
-		status = "disabled";
+		status = "okay";
 	};
 };
 
@@ -799,7 +799,7 @@
 	hs_bitrate = <420>;
 	lp_bitrate = <100>;
 	skip_panel_check = <1>;
-	status = "disabled";
+	status = "okay";
 
 	display-timing {
 		clock-frequency = <81244800>;
@@ -814,7 +814,8 @@
 	};
 
 	panel@0 {
-		compatible = "hx8394d";
+/*		compatible = "hx8394d";	*/
+		compatible = "avdtt80wx";
 		reg = <0>;
 		vdd3-supply = <&VCC_LDO0>;
 		vci-supply = <&VCC_LDO8>;
@@ -839,7 +840,7 @@
 
 &dp_drm_hdmi {
 	ddc-i2c-bus = <&i2c_gpio7>;
-	status = "okay";
+	status = "disabled";
 
 	mode {
 		width = <1280>;

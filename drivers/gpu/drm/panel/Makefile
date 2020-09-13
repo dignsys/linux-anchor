@@ -6,3 +6,4 @@ obj-$(CONFIG_DRM_PANEL_SHARP_LQ101R1SX01) += panel-sharp-lq101r1sx01.o
 obj-$(CONFIG_DRM_PANEL_S6E8FA0) += panel-s6e8fa0.o
 obj-$(CONFIG_DRM_PANEL_HX8394D) += panel-hx8394d.o
 obj-$(CONFIG_DRM_PANEL_AVDTT80WXCN039A) += panel-avdtt80wxcn039a.o
+obj-$(CONFIG_DRM_PANEL_AVDTT80WXCN046A) += panel-avdtt80wxcn046a.o
