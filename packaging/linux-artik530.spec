@@ -110,7 +110,7 @@ mkdir -p %{buildroot}/lib/modules/%{fullVersion}
 
 # 2. Install Image, System.map, ...
 install -m 755 arch/arm/boot/zImage %{buildroot}/boot/
-install -m 644 arch/arm/boot/dts/*.dtb %{buildroot}/boot/
+install -m 644 arch/arm/boot/dts/s5p4418-artik530-raptor-rev00.dtb %{buildroot}/boot/
 
 install -m 644 vmlinux %{buildroot}/boot/vmlinux-%{fullVersion}
 install -m 644 System.map %{buildroot}/boot/System.map-%{fullVersion}
