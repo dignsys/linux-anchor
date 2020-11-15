@@ -380,7 +380,14 @@
 
 	backlight: pwm-backlight {
 		compatible = "pwm-backlight";
-		pwms = <&pwm 0 2000000 0>;
+#if 0
+		pwms = <&pwm 0 2000000 0>;	/* 500 Hz -> Trouble in Dark side */
+		pwms = <&pwm 0 10000 0>;	/* 100 KHz -> Not work*/
+		pwms = <&pwm 0 2000 0>;		/* 521 KHz -> So So */
+		pwms = <&pwm 0 100 0>;		/* 10 MHz, -> No brightness change, always high(3.3V) */
+#endif
+		pwms = <&pwm 0 1000 0>;		/* 1 MHz -> OK */
+
 		pwm-names = "pwm-backlight";
 		brightness-levels = <
 			20 30 40 50 60 70 80 90 100 110 120 130 140 
