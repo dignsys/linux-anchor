@@ -461,6 +461,16 @@
 			#sound-dai-cells = <0>;
 			compatible = "realtek,alc5623";
 			reg = <0x1a>;
+			status = "disabled";
+		};
+
+		rt5640: rt5640@1c {
+			#sound-dai-cells = <0>;
+			compatible = "realtek,rt5640";
+			reg = <0x1c>;
+//			realtek,ldo1-en-gpios =
+//			    <&gpio_c 4 GPIO_ACTIVE_HIGH>;
+			status = "ok";
 		};
 	};
 
@@ -502,11 +512,10 @@
 		    "Headphone", "Out Jack",
 		    "Microphone", "In Jack";
 		simple-audio-card,routing =
-		    "Out Jack", "HPL",
-		    "Out Jack", "HPR",
-		    "Out Jack", "LINEINL",
-		    "Out Jack", "LINEINR",
-		    "MIC1", "In Jack";
+		    "Out Jack", "HPOL",
+		    "Out Jack", "HPOR",
+		    "IN2P", "In Jack",
+		    "IN2P", "In Jack";
 		status = "okay";
 
 		simple-audio-card,dai-link@0 {
@@ -516,7 +525,7 @@
 		    };
 
 		    codec {
-			sound-dai = <&alc5623>;
+			sound-dai = <&rt5640>;
 		    };
 		};
 
