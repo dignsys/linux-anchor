@@ -91,12 +91,12 @@ static const struct reg_sequence init_list[] = {
 	{RT5640_PRIV_DATA,	0x2000},
 	{RT5640_PRIV_INDEX,	0x0091},
 	{RT5640_PRIV_DATA,	0x1000},
-	{RT5640_SPK_L_MIXER,	0x0036},/*DACL1 -> SPKMIXL*/
-	{RT5640_SPK_R_MIXER,	0x0036},/*DACR1 -> SPKMIXR*/
-	{RT5640_SPK_VOL,	0x8b8b},/*SPKMIX -> SPKVOL*/
-	{RT5640_SPO_CLSD_RATIO, 0x0001},
-	{RT5640_SPO_L_MIXER,	0xe800},/*SPKVOLL -> SPOLMIX*/
-	{RT5640_SPO_R_MIXER,	0x2800},/*SPKVOLR -> SPORMIX*/
+	{RT5640_SPK_L_MIXER,	0x0036},/*MX-0x46, DACL1 -> SPKMIXL*/
+	{RT5640_SPK_R_MIXER,	0x0036},/*MX-0x47, DACR1 -> SPKMIXR*/
+	{RT5640_SPK_VOL,	0x8b8b},/*MX-0x01, SPKMIX -> SPKVOL*/
+	{RT5640_SPO_CLSD_RATIO, 0x0001},/*MX-0x4a */
+	{RT5640_SPO_L_MIXER,	0xe800},/*MX-0x48, SPKVOLL -> SPOLMIX*/
+	{RT5640_SPO_R_MIXER,	0x2800},/*MX-0x49, SPKVOLR -> SPORMIX*/
 	{RT5640_DSP_PATH2,	0x0000},
 	{RT5640_DUMMY2,		0x0000},/*MX-FB for RxDP source*/
 	/*record*/
@@ -109,6 +109,7 @@ static const struct reg_sequence init_list[] = {
 	{RT5640_ADC_DIG_VOL,	0x2f2f},/*mute stereo adc mixer*/
 	{RT5640_DSP_PATH1,	0xC000},
 	{RT5640_ASRC_1,		0x4000},
+
 #endif
 };
 #define RT5640_INIT_REG_LEN ARRAY_SIZE(init_list)
@@ -1037,9 +1038,11 @@ static void rt5640_pmu_depop(struct snd_soc_codec *codec)
 
 	regmap_write(rt5640->regmap, RT5640_PR_BASE +
 		RT5640_MAMP_INT_REG2, 0x1c00);
+#if 0
 	regmap_update_bits(rt5640->regmap, RT5640_DEPOP_M1,
 		RT5640_HP_CP_MASK | RT5640_HP_SG_MASK,
 		RT5640_HP_CP_PD | RT5640_HP_SG_EN);
+#endif
 	regmap_update_bits(rt5640->regmap, RT5640_PR_BASE +
 		RT5640_CHPUMP_INT_REG1, 0x0700, 0x0400);
 }

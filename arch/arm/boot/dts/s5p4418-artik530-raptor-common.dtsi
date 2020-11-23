@@ -468,9 +468,10 @@
 			#sound-dai-cells = <0>;
 			compatible = "realtek,rt5640";
 			reg = <0x1c>;
-//			realtek,ldo1-en-gpios =
-//			    <&gpio_c 4 GPIO_ACTIVE_HIGH>;
 			status = "ok";
+
+			interrupt-parent = <&gpio_c>;
+			interrupts = <1 IRQ_TYPE_EDGE_RISING>;
 		};
 	};
 
