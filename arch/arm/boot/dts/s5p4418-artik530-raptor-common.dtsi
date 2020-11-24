@@ -511,10 +511,13 @@
 		simple-audio-card,mclk-fs = <256>;
 		simple-audio-card,widgets =
 		    "Headphone", "Out Jack",
+		    "Line", "Line Out",
 		    "Microphone", "In Jack";
 		simple-audio-card,routing =
 		    "Out Jack", "HPOL",
 		    "Out Jack", "HPOR",
+		    "Line Out", "LOUTL",
+		    "Line Out", "LOUTR",
 		    "IN2P", "In Jack",
 		    "IN2P", "In Jack";
 		status = "okay";

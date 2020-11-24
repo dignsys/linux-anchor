@@ -87,6 +87,7 @@ static const struct reg_sequence init_list[] = {
 	{RT5640_OUT_R3_MIXER,	0x01fe},/*DACR1 -> OUTMIXR*/
 	{RT5640_HP_VOL,		0x0d0d},/*OUTMIX -> HPVOL  fix volume max*/
 	{RT5640_HPO_MIXER,	0xc000},/*HPVOL -> HPOLMIX*/
+//	{RT5640_LOUT_MIXER,	0x3000},/*MX-0x53, DACL1, DACR1 -> LOUTMIX*/
 	{RT5640_PRIV_INDEX,	0x0090},
 	{RT5640_PRIV_DATA,	0x2000},
 	{RT5640_PRIV_INDEX,	0x0091},
