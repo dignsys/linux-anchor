@@ -124,9 +124,11 @@ make INSTALL_PATH=%{buildroot} INSTALL_MOD_PATH=%{buildroot} INSTALL_HDR_PATH=%{
 # 5. Restore source and build irectory
 tar -xf linux-kernel-build-%{variant}.tar -C %{buildroot}/usr/src/linux-kernel-build-%{variant}
 mv %{buildroot}/usr/src/linux-kernel-build-%{variant}/arch/arm64 .
+mv %{buildroot}/usr/src/linux-kernel-build-%{variant}/arch/arm .
 mv %{buildroot}/usr/src/linux-kernel-build-%{variant}/arch/Kconfig .
 rm -rf %{buildroot}/usr/src/linux-kernel-build-%{variant}/arch/*
 mv arm64 %{buildroot}/usr/src/linux-kernel-build-%{variant}/arch/
+mv arm %{buildroot}/usr/src/linux-kernel-build-%{variant}/arch/
 mv Kconfig      %{buildroot}/usr/src/linux-kernel-build-%{variant}/arch/
 
 # 6. Remove files
