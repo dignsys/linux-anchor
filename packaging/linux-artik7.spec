@@ -142,7 +142,7 @@ find %{buildroot}/usr/src/linux-kernel-build-%{variant} -name "*.ko" -exec rm -f
 find %{buildroot}/usr/src/linux-kernel-build-%{variant} -name "*.o" -exec rm -f {} \;
 find %{buildroot}/usr/src/linux-kernel-build-%{variant} -name "*.S" -exec rm -f {} \;
 find %{buildroot}/usr/src/linux-kernel-build-%{variant} -name "*.s" -exec rm -f {} \;
-find %{buildroot}/usr/src/linux-kernel-build-%{variant} -name "*.c" -exec rm -f {} \;
+find %{buildroot}/usr/src/linux-kernel-build-%{variant} -name "*\.c" -not -path "%{buildroot}/usr/src/linux-kernel-build-%{variant}/scripts/*" -delete
 find %{buildroot}/usr/src/linux-kernel-build-%{variant} -size 0c -exec rm -f {} \;
 find %{buildroot}/usr/include -name "\.install"  -exec rm -f {} \;
 find %{buildroot}/usr -name "..install.cmd" -exec rm -f {} \;
