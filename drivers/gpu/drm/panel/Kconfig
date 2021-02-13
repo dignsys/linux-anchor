@@ -75,4 +75,10 @@ config DRM_PANEL_AVDTT80WXCN046A
 	select DRM_MIPI_DSI
 	select VIDEOMODE_HELPERS
 
+config DRM_PANEL_AVDTT80WXCN056A
+	tristate "AVD-TT80WX-CN-056-A"
+	depends on OF
+	select DRM_MIPI_DSI
+	select VIDEOMODE_HELPERS
+
 endmenu
