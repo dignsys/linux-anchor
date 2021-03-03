@@ -592,7 +592,7 @@
 		home {
 			label = "Home";
 			gpios = <&gpio_b 6 GPIO_ACTIVE_LOW>;
-			linux,code = <KEY_HOME>;
+			linux,code = <KEY_PHONE>;
 			gpio-key,wakeup;
 			debounce-interval = <100>;	/* touch key has 150ms interval time */
 		};
@@ -854,28 +854,28 @@
 #endif
 #if 0 /* avdtt80wx-039a-2020 */
         display-timing {
-		clock-frequency = <67161600>; 
-		hactive = <800>; 
-		vactive = <1280>; 
-		hfront-porch = <60>; 
-		hback-porch = <60>; 
-		hsync-len = <4>; 
-		vfront-porch = <16>; 
-		vback-porch = <16>; 
-		vsync-len = <2>; 
+		clock-frequency = <67161600>;
+		hactive = <800>;
+		vactive = <1280>;
+		hfront-porch = <60>;
+		hback-porch = <60>;
+		hsync-len = <4>;
+		vfront-porch = <16>;
+		vback-porch = <16>;
+		vsync-len = <2>;
         };
 #endif
 #if 1 /* avdtt80wx-056a-2021 */
         display-timing {
 		clock-frequency = <81244800>;
-		hactive = <800>; 
-		vactive = <1280>; 
-		hfront-porch = <60>; 
-		hback-porch = <60>; 
-		hsync-len = <4>; 
-		vfront-porch = <16>; 
-		vback-porch = <16>; 
-		vsync-len = <2>; 
+		hactive = <800>;
+		vactive = <1280>;
+		hfront-porch = <60>;
+		hback-porch = <60>;
+		hsync-len = <4>;
+		vfront-porch = <16>;
+		vback-porch = <16>;
+		vsync-len = <2>;
         };
 #endif
 
@@ -951,7 +951,7 @@
 		reg = <1>;
 		compatible = "brcm,bcm4329-fmac";
 		interrupt-parent = <&gpio_b>;
-		interrupts = <11 IRQ_TYPE_LEVEL_HIGH>; 
+		interrupts = <11 IRQ_TYPE_LEVEL_HIGH>;
 		interrupt-names = "host-wake";
 		brcm,drive-strength = <6>;
 	};
