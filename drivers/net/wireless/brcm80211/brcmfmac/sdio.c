@@ -623,8 +623,8 @@ static const struct sdiod_drive_str sdiod_drvstr_tab2_3v3[] = {
 #define BCM43430_NVRAM_NAME		"brcm/brcmfmac43430-sdio.txt"
 #define BCM43455_FIRMWARE_NAME		"brcm/brcmfmac43455-sdio.bin"
 #define BCM43455_NVRAM_NAME		"brcm/brcmfmac43455-sdio.txt"
-#define BCM43456_FIRMWARE_NAME		"brcm/brcmfmac43456-sdio.bin"
-#define BCM43456_NVRAM_NAME		"brcm/brcmfmac43456-sdio.txt"
+#define BCM43456_FIRMWARE_NAME		"brcm/fw_bcm43456c5_ag.bin"
+#define BCM43456_NVRAM_NAME		"brcm/nvram_ap6256.txt"
 #define BCM4354_FIRMWARE_NAME		"brcm/brcmfmac4354-sdio.bin"
 #define BCM4354_NVRAM_NAME		"brcm/brcmfmac4354-sdio.txt"
 
