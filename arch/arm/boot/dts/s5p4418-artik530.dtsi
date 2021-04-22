@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (C) 2016  Nexell Co., Ltd.
  * Author: Youngbok, Park <ybpark@nexell.co.kr>
  *
@@ -39,15 +39,6 @@
 			spi2:spi@c00a7000  { clock-frequency = <80000000>; };
 		};
 
-
-		pinctrl@C0010000 {
-			cfg_wlanhostwake: cfg-wlanhostwake {
-				nexell,pins = "alive-3";
-				nexell,pin-function = <NX_PIN_FUNC0>;
-				nexell,pin-pull = <NX_PIN_PULL_UP>;
-				nexell,pin-strength = <NX_PIN_STR0>;
-			};
-		};
 	};	/*** soc ***/
 
 	artik_zb_power {
@@ -63,36 +54,6 @@
 		reset-gpio = <&gpio_b 26 0>;
 		status = "disabled";
 	};
-
-#if 0
-	sd8x_rfkill: sd8x-rfkill {
-		 compatible = "mrvl,sd8x-rfkill";
-		 sd-host = <&dw_mmc_1>;
-		 pd-gpio = <&alive_0 4 0>; /* AliveGPIO4=WLAN_BT_PDN output*/
-		 gpios = <&alive_0 3 1>; /* AliveGPIO3=WLAN_HOST_WAKE, input */
-		 status = "okay";
-	};
-
-	sd8xxx-wlan {
-		 drvdbg  = <0x37>;
-		 drv_mode = <0x5>;
-		 cfg80211_wext = <0xf>;
-		 sta_name = "wlan";
-		 wfd_name = "p2p";
-		 max_vir_bss = <1>;
-		 cal_data_cfg = "mrvl/WlanCalData_ext.conf";
-		 fw_name = "mrvl/sdsd8977_combo_v2.bin";
-		 reg_alpha2 = "US";
-		 p2p_enh = <1>;
-		 inact_tmo = <300>;
-		 txpwrlimit_cfg = "mrvl/txpwrlimit_cfg.bin";
-	};
-
-	sd8xxx-bt {
-		 init_cfg = "mrvl/bt_init_cfg.conf";
-		 cal_cfg = "mrvl/bt_cal_data.conf";
-	};
-#endif
 
 	thermal_ap:thermal {
 		#thermal-sensor-cells = <0>;
@@ -147,47 +108,6 @@
 	prefetch-instr = <1>;
 	arm,tag-latency = <3 4 3>;
 	arm,data-latency = <3 4 3>;
-};
-
-#if 0
-&dw_mmc_1 {
-	status = "okay";
-	num-slots = <1>;
-	bus-width = <4>;
-	cap-sd-highspeed;
-
-	broken-cd;
-	clock-frequency = <100000000>;
-	supports-detect-complete;
-	keep-power-in-suspend;
-	pm-ignore-notify;
-	powered-resumed-nonremovable-card;
-	cap-oob-sdio-irq;
-
-	nexell,drive_dly = <0x0>;
-	nexell,drive_shift = <0x2>;
-	nexell,sample_dly = <0x00>;
-	nexell,sample_shift = <0x01>;
-
-	pinctrl-names = "default";
-	pinctrl-0 = <&sdmmc1_cclk &sdmmc1_cmd &sdmmc1_bus4 &cfg_wlanhostwake>;
-};
-#endif
-
-&dw_mmc_0 {
-	num-slots = <1>;
-	bus-width = <4>;
-	cap-mmc-highspeed;
-	broken-cd;
-	non-removable;
-	clock-frequency = <400000000>;
-	card-detect-delay = <200>;
-	disable-wp;
-	nexell,drive_dly = <0x0>;
-	nexell,drive_shift = <0x03>;
-	nexell,sample_dly = <0x00>;
-	nexell,sample_shift = <0x02>;
-	status = "okay";
 };
 
 &spi2_bus {
