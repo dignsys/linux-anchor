@@ -159,6 +159,9 @@
 				/* Led & Switch */
 				/* PIN_OUT(gpioc-13, LOW, FUNC0, NONE, STR0); */
 
+                /* LCD Panel */
+                PIN_OUT(gpioc-16, LOW, FUNC0, NONE, STR0);
+
 				/* Etc */
 				PIN_IN(gpioa-10, FUNC0, NONE, STR0);
 				PIN_IN(gpioa-11, FUNC0, NONE, STR0);
@@ -902,7 +905,7 @@
 		reg = <0>;
 		vdd3-supply = <&VCC_LDO0>;
 		vci-supply = <&VCC_LDO8>;
-		reset-gpio = <&gpio_c 11 0>;
+        reset-gpio = <&gpio_c 16 0>;
 		power-on-delay= <50>;
 		reset-delay = <100>;
 		init-delay = <100>;
