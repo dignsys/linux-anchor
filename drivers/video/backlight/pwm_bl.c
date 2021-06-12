@@ -322,6 +322,7 @@ static int pwm_backlight_probe(struct platform_device *pdev)
 		data->dft_brightness = data->max_brightness;
 	}
 
+    bl->props.power = FB_BLANK_POWERDOWN;
 	bl->props.brightness = data->dft_brightness;
 	backlight_update_status(bl);
 
