@@ -586,9 +586,8 @@
 
 		power {
 			label = "Power";
-			gpios = <&alive_0 0 0>;
-			linux,code = <KEY_POWER>;
-			gpio-key,wakeup;
+			gpios = <&alive_0 0 1>;
+			linux,code = <KEY_BOOKMARKS>;
 			debounce-interval = <100>;	/* touch key has 150ms interval time */
 		};
 
